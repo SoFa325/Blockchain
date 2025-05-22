@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Партнеры</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Партнеры и скидки</h1>
+        <a href="/logout" class="logout">Выйти</a>
+    </header>
+    
+    <div class="container">
+        <div class="partners-list">
+            <% partners.forEach(partner => { %>
+                <div class="partner-card">
+                    <h2><%= partner.name %></h2>
+                    <p><strong>Скидка:</strong> <%= partner.discount %></p>
+                    <p><strong>Стоимость:</strong> <%= partner.price %></p>
+                    <button class="use-discount" 
+                            data-partner-id="<%= partner.id %>"
+                            data-partner-address="<%= partner.address %>"
+                            data-price="<%= partner.price %>">
+                        Использовать скидку
+                    </button>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+    
+    <nav class="main-nav">
+        <a href="/lk">Личный кабинет</a>
+        <a href="/partners">Партнеры</a>
+        <a href="/rubbish_list">Пункты приема</a>
+    </nav>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>

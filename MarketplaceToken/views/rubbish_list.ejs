@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пункты приема</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Пункты приема отходов</h1>
+        <a href="/logout" class="logout">Выйти</a>
+    </header>
+    
+    <div class="container">
+        <div class="rubbish-points">
+            <% rubbishPoints.forEach(point => { %>
+                <div class="point-card">
+                    <h2><%= point.name %></h2>
+                    <p><%= point.address %></p>
+                    <a href="https://yandex.ru/maps/?text=<%= point.coords %>" target="_blank">
+                        Посмотреть на карте
+                    </a>
+                    <button class="recycle-btn" data-point-id="<%= point.id %>">
+                        Сдать отходы
+                    </button>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+    
+    <nav class="main-nav">
+        <a href="/lk">Личный кабинет</a>
+        <a href="/partners">Партнеры</a>
+        <a href="/rubbish_list">Пункты приема</a>
+    </nav>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>

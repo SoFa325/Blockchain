@@ -1,0 +1,33 @@
+{
+  "type": "commonjs",
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.9.3",
+    "@truffle/contract": "^4.6.31",
+    "bcryptjs": "^3.0.2",
+    "body-parser": "^2.2.0",
+    "dotenv": "^16.5.0",
+    "ejs": "^3.1.10",
+    "eth-sig-util": "^3.0.1",
+    "ethereumjs-util": "^7.1.5",
+    "express": "^5.1.0",
+    "express-session": "^1.18.1",
+    "express-validator": "^7.2.1",
+    "jsonwebtoken": "^9.0.2",
+    "maildev": "^2.2.1",
+    "nodemailer": "^7.0.3",
+    "web3": "^4.16.0"
+  },
+  "name": "marketplacetoken",
+  "version": "1.0.0",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
