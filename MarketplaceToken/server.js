@@ -11,15 +11,12 @@ require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Инициализация Web3
 const web3 = new Web3(process.env.PROVIDER_URL || 'http://localhost:7545');
 const contractArtifact = require('./build/contracts/MarketplaceToken.json');
 const contractAbi = contractArtifact.abi;
 const contractAddress = contractArtifact.networks[Object.keys(contractArtifact.networks)[0]].address;
 const marketplaceToken = new web3.eth.Contract(contractAbi, contractAddress);
 
-
-// Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(session({
@@ -32,21 +29,17 @@ app.use(session({
     }
 }));
 
-// Статические файлы
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-// Хранилище данных (в реальном приложении используйте БД)
 const users = [];
 let availableAccounts = [];
 
-// Инициализация доступных аккаунтов
 async function initAccounts() {
     try {
         const accounts = await web3.eth.getAccounts();
-        // Первые 2 аккаунта оставляем для системы, остальные для пользователей
-        availableAccounts = accounts.slice(2); 
+        availableAccounts = accounts; 
         console.log(`Доступно ${availableAccounts.length} аккаунтов для пользователей`);
     } catch (error) {
         console.error('Ошибка инициализации аккаунтов:', error);
@@ -54,15 +47,9 @@ async function initAccounts() {
     }
 }
 
-// Генерация токена для подтверждения
-function generateToken() {
-    return crypto.randomBytes(32).toString('hex');
-}
-
-// Отправка письма с данными аккаунта
 async function sendAccountEmail(email, account) {
     const loginUrl = `http://localhost:${port}/auth`;
-    
+    const pass = process.env.Password;
     try {
         const transporter = nodemailer.createTransport({
             host: 'smtp.mail.ru',
@@ -70,7 +57,7 @@ async function sendAccountEmail(email, account) {
             secure: true,
             auth: {
                 user: 'sofyabel@inbox.ru',
-                pass: '8c4Zp8fUgKspyBKhyk51'
+                pass: pass
             }
         });
         let result = await transporter.sendMail({
@@ -93,7 +80,6 @@ async function sendAccountEmail(email, account) {
     }
 }
 
-// Маршруты
 app.get('/', (req, res) => res.redirect('/register'));
 
 app.get('/auth', (req, res) => {
@@ -116,7 +102,6 @@ app.get('/register', (req, res) => {
     delete req.session.message;
 });
 
-// Регистрация по email
 app.post('/register', async (req, res) => {
     if (req.session.user) return res.redirect('/lk');
     res.render('registration', { 
@@ -127,42 +112,34 @@ app.post('/register', async (req, res) => {
     delete req.session.message;
     const { email } = req.body;
     
-    // Простая валидация email
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         req.session.error = 'Пожалуйста, введите корректный email';
         return res.redirect('/register');
     }
     
-    // Проверка существующего пользователя
     if (users.some(u => u.email === email)) {
         req.session.error = 'Этот email уже зарегистрирован';
         return res.redirect('/register');
     }
     
-    // Проверка доступности аккаунтов
     if (availableAccounts.length === 0) {
         req.session.error = 'Извините, в данный момент нет доступных аккаунтов';
         return res.redirect('/register');
     }
-    
-    // Выделяем аккаунт пользователю
+   
     const account = availableAccounts.shift();
-    const token = generateToken();
     
     const newUser = {
         email,
         account,
-        token,
         createdAt: new Date()
     };
     
     users.push(newUser);
     
-    // Отправляем письмо с данными аккаунта
     const emailSent = await sendAccountEmail(email, account);
     
     if (!emailSent) {
-        // Возвращаем аккаунт в пул, если не удалось отправить письмо
         availableAccounts.unshift(account);
         users.pop();
         req.session.error = 'Ошибка при отправке письма. Попробуйте позже.';
@@ -173,7 +150,6 @@ app.post('/register', async (req, res) => {
     res.redirect('/auth');
 });
 
-// Авторизация (просто проверяем что email есть в системе)
 app.post('/auth', async (req, res) => {
     const { email } = req.body;
     const { blockchain_account } = req.body;
@@ -196,20 +172,34 @@ app.post('/auth', async (req, res) => {
     res.redirect('/lk');
 });
 
-// Личный кабинет
 app.get('/lk', async (req, res) => {
     if (!req.session.user) return res.redirect('/auth');
     
     try {
+        // Получаем баланс
         const balance = await web3.eth.getBalance(req.session.user.account);
         const tokenBalance = await marketplaceToken.methods
             .balanceOf(req.session.user.account)
             .call();
+
+        // Получаем историю транзакций 
+        const transactions = await getTransactionHistory(req.session.user.account);
         
+        // Рассчитываем eco-score
+        const ecoScore = calculateEcoScore(transactions);//сюда Юля
+        const ecoComment = getEcoComment(ecoScore);//если хош можешь убрать
+
+        // Получаем достижения
+        const achievements = await getUserAchievements(req.session.user.account);
+
         res.render('lk', { 
             user: req.session.user,
             balance: web3.utils.fromWei(balance, 'ether'),
-            tokenBalance: web3.utils.fromWei(tokenBalance, 'ether')
+            tokenBalance: web3.utils.fromWei(tokenBalance, 'ether'),
+            transactions: transactions,
+            ecoScore: ecoScore,
+            ecoComment: ecoComment,
+            achievements: achievements
         });
     } catch (error) {
         console.error('Ошибка получения данных:', error);
@@ -218,6 +208,62 @@ app.get('/lk', async (req, res) => {
     }
 });
 
+async function getTransactionHistory(account) {
+    // TODO
+    // пока пример
+    return [
+        {
+            timestamp: Date.now() - 86400000,
+            type: "Перевод",
+            amount: "0.5",
+            currency: "ETH",
+            status: "confirmed"
+        },
+        {
+            timestamp: Date.now() - 172800000,
+            type: "Получение токенов",
+            amount: "100",
+            currency: "Tokens",
+            status: "confirmed"
+        }
+    ];
+}
+
+function calculateEcoScore(transactions) {
+    const greenTransactions = transactions.filter(tx => tx.type === "Эко-действие").length;
+    return Math.min(100, 30 + greenTransactions * 10); // Базовый 30 + 10 за каждое эко-действие
+}
+
+function getEcoComment(score) {
+    if (score >= 70) return "Отличный результат! Вы настоящий эко-герой!";
+    if (score >= 40) return "Хороший результат, но есть куда расти";
+    return "Низкий показатель, рекомендуем больше эко-активностей";
+}
+
+async function getUserAchievements(account) {
+    // TODO
+    // пока пример
+    return [
+        {
+            title: "Первая транзакция",
+            description: "Совершите первую транзакцию",
+            completed: true,
+            progress: 100
+        },
+        {
+            title: "Эко-энтузиаст",
+            description: "Совершите 5 эко-транзакций",
+            completed: false,
+            progress: 40
+        },
+        {
+            title: "Коллекционер",
+            description: "Получите 3 разных типа токенов",
+            completed: false,
+            progress: 66
+        }
+    ];
+}
 app.get('/logout', (req, res) => {
     req.session.destroy();
     res.redirect('/auth');

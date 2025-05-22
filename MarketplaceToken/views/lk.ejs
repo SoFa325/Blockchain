@@ -4,27 +4,89 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Личный кабинет</title>
-    <style>
-        body { font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; }
-        .info-block { margin-bottom: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
-        .logout-btn { padding: 8px 15px; background: #f44336; color: white; border: none; border-radius: 4px; }
-    </style>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <h1>Личный кабинет</h1>
-    
-    <div class="info-block">
-        <h2>Ваши данные</h2>
-        <p><strong>Email:</strong> <%= user.email %></p>
-        <p><strong>Блокчейн-аккаунт:</strong> <%= user.account %></p>
+    <header>
+        <h1>Личный кабинет</h1>
+        <a href="/logout" class="logout">Выйти</a>
+    </header>
+
+    <div class="container">
+        <div class="info-block">
+            <h2>Ваши данные</h2>
+            <p><strong>Email:</strong> <%= user.email %></p>
+            <p><strong>Блокчейн-аккаунт:</strong> <%= user.account %></p>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="info-block">
+                <h2>Баланс</h2>
+                <div class="balance-display">
+                    <div class="currency">
+                        <span class="currency-icon">Ξ</span>
+                        <span class="amount"><%= balance %></span>
+                        <span class="currency-name">ETH</span>
+                    </div>
+                    <div class="currency">
+                        <span class="currency-icon">🪙</span>
+                        <span class="amount"><%= tokenBalance %></span>
+                        <span class="currency-name">Tokens</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-block">
+                <h2>Eco-score</h2>
+                <div class="eco-score-display">
+                    <div class="score <%= ecoScore >= 70 ? 'high' : ecoScore >= 40 ? 'medium' : 'low' %>">
+                        <%= ecoScore %>/100
+                    </div>
+                    <p class="eco-comment"><%= ecoComment %></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-block">
+            <h2>История операций</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Дата</th>
+                        <th>Тип</th>
+                        <th>Сумма</th>
+                        <th>Статус</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% transactions.forEach(tx => { %>
+                    <tr>
+                        <td><%= new Date(tx.timestamp).toLocaleString() %></td>
+                        <td><%= tx.type %></td>
+                        <td><%= tx.amount %> <%= tx.currency %></td>
+                        <td class="status-<%= tx.status %>"><%= tx.status %></td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="info-block">
+            <h2>Достижения</h2>
+            <div class="achievements-grid">
+                <% achievements.forEach(ach => { %>
+                <div class="achievement <%= ach.completed ? 'completed' : '' %>">
+                    <h3><%= ach.title %></h3>
+                    <p><%= ach.description %></p>
+                    <% if (ach.completed) { %>
+                        <span class="badge">✔ Выполнено</span>
+                    <% } else { %>
+                        <progress value="<%= ach.progress %>" max="100"></progress>
+                    <% } %>
+                </div>
+                <% }); %>
+            </div>
+        </div>
     </div>
-    
-    <div class="info-block">
-        <h2>Балансы</h2>
-        <p><strong>ETH:</strong> <%= balance %></p>
-        <p><strong>Токены:</strong> <%= tokenBalance %></p>
-    </div>
-    
-    <a href="/logout" class="logout-btn">Выйти</a>
 </body>
 </html>
