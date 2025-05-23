@@ -5,11 +5,134 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Личный кабинет</title>
     <link rel="stylesheet" href="/css/style.css">
+    <style>
+        /* Основные стили шапки */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: #2c3e50;
+            color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            position: relative;
+            flex-wrap: nowrap;
+        }
+
+        .header-title {
+            flex-shrink: 0;
+            margin-right: 20px;
+            font-size: 1.5rem;
+            white-space: nowrap;
+        }
+
+        /* Контейнер для кнопок */
+        .header-nav {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            justify-content: flex-end;
+            flex-wrap: nowrap;
+            min-width: 0;
+            width: 100%;
+        }
+
+        /* Общие стили кнопок */
+        .nav-button, .logout-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 18px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            white-space: nowrap;
+            flex-shrink: 0;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Стили конкретных кнопок */
+        .nav-button.partners {
+            background-color: #27ae60;
+            color: white;
+        }
+
+        .nav-button.recycle {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .logout-btn {
+            background-color: #e74c3c;
+            color: white;
+            margin-left: 8px;
+        }
+
+        /* Иконки */
+        .button-icon {
+            margin-right: 8px;
+            font-size: 1rem;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 1rem;
+            }
+            
+            .header-title {
+                margin-right: 0;
+                margin-bottom: 12px;
+                text-align: center;
+            }
+            
+            .header-nav {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 8px;
+            }
+            
+            .nav-button, .logout-btn {
+                padding: 8px 12px;
+                font-size: 0.9rem;
+                flex-grow: 1;
+                min-width: 120px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-nav {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .nav-button, .logout-btn {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
-        <h1>Личный кабинет</h1>
-        <a href="/logout" class="logout">Выйти</a>
+        <h1 class="header-title">Личный кабинет</h1>
+        <div class="header-nav">
+            <a href="/partners" class="nav-button partners">
+                <span class="button-icon">🤝</span> Партнеры
+            </a>
+            <a href="/recycle-points" class="nav-button recycle">
+                <span class="button-icon">♻️</span> Пункты приема
+            </a>
+            <a href="/logout" class="logout-btn">
+                <span class="button-icon">🚪</span> Выйти
+            </a>
+        </div>
     </header>
 
     <div class="container">
@@ -23,11 +146,6 @@
             <div class="info-block">
                 <h2>Баланс</h2>
                 <div class="balance-display">
-                    <div class="currency">
-                        <span class="currency-icon">Ξ</span>
-                        <span class="amount"><%= balance %></span>
-                        <span class="currency-name">ETH</span>
-                    </div>
                     <div class="currency">
                         <span class="currency-icon">🪙</span>
                         <span class="amount"><%= tokenBalance %></span>

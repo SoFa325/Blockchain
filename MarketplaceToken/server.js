@@ -8,6 +8,27 @@ const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 require('dotenv').config();
 
+const fs = require('fs').promises;
+
+const USERS_FILE = path.join(__dirname, 'users.json');
+const PURCHASES_FILE = path.join(__dirname, 'purchases.json');
+
+async function readData(filePath) {
+    try {
+        const data = await fs.readFile(filePath, 'utf8');
+        return JSON.parse(data);
+    } catch (err) {
+        if (err.code === 'ENOENT') {
+            return []; 
+        }
+        throw err;
+    }
+}
+
+async function writeData(filePath, data) {
+    await fs.writeFile(filePath, JSON.stringify(data, null, 2), 'utf8');
+}
+
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -22,18 +43,21 @@ app.use(bodyParser.json());
 app.use(session({
     secret: process.env.SESSION_SECRET || 'your-secret-key',
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false, 
     cookie: { 
         secure: process.env.NODE_ENV === 'production',
         maxAge: 24 * 60 * 60 * 1000 // 1 день
     }
 }));
 
+
+let users = [];
+
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-const users = [];
 let availableAccounts = [];
 
 async function initAccounts() {
@@ -102,14 +126,19 @@ app.get('/register', (req, res) => {
     delete req.session.message;
 });
 
+async function loadUsers() {
+    try {
+        users = await readData(USERS_FILE);
+        console.log('Загружено пользователей:', users.length);
+    } catch (err) {
+        console.error('Ошибка загрузки пользователей:', err);
+        users = [];
+    }
+}
+
+
+// Вместо ручного добавления пользователей в массив:
 app.post('/register', async (req, res) => {
-    if (req.session.user) return res.redirect('/lk');
-    res.render('registration', { 
-        error: req.session.error,
-        message: req.session.message
-    });
-    delete req.session.error;
-    delete req.session.message;
     const { email } = req.body;
     
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -117,7 +146,8 @@ app.post('/register', async (req, res) => {
         return res.redirect('/register');
     }
     
-    if (users.some(u => u.email === email)) {
+    const existingUsers = await readData(USERS_FILE);
+    if (existingUsers.some(u => u.email === email)) {
         req.session.error = 'Этот email уже зарегистрирован';
         return res.redirect('/register');
     }
@@ -126,16 +156,16 @@ app.post('/register', async (req, res) => {
         req.session.error = 'Извините, в данный момент нет доступных аккаунтов';
         return res.redirect('/register');
     }
-   
-    const account = availableAccounts.shift();
     
+    const account = availableAccounts.shift();
     const newUser = {
         email,
         account,
-        createdAt: new Date()
+        createdAt: new Date().toISOString()
     };
     
-    users.push(newUser);
+    users = [...existingUsers, newUser];
+    await writeData(USERS_FILE, users);
     
     const emailSent = await sendAccountEmail(email, account);
     
@@ -151,25 +181,49 @@ app.post('/register', async (req, res) => {
 });
 
 app.post('/auth', async (req, res) => {
-    const { email } = req.body;
-    const { blockchain_account } = req.body;
-    const user = users.find(u => u.email === email);
-    
-    if (!user) {
-        req.session.error = 'Аккаунт не найден. Зарегистрируйтесь сначала.';
+    const { email, blockchain_account } = req.body;
+    console.log('Попытка входа для email:', email);
+    try {
+        users = await readData(USERS_FILE);
+        console.log('Все пользователи:', users);
+        
+        const user = users.find(u => u.email === email);
+        console.log('Найденный пользователь:', user);
+        
+        if (!user) {
+            console.log('Пользователь не найден');
+            req.session.error = 'Аккаунт не найден. Зарегистрируйтесь сначала.';
+            return res.redirect('/auth');
+        }
+        
+        if (user.account !== blockchain_account) {
+            console.log('Неверный аккаунт', {
+                введенный: blockchain_account,
+                ожидаемый: user.account
+            });
+            req.session.error = 'Неправильный id аккаунта. Попробуйте еще раз.';
+            return res.redirect('/auth');
+        }
+        // Успешная авторизация
+        req.session.user = {
+            email: user.email,
+            account: user.account
+        };
+        console.log(`Создана сессия пользователя ${email}`)
+        // Сохраняем сессию перед редиректом
+        req.session.save(err => {
+            if (err) {
+                console.error('Ошибка сохранения сессии:', err);
+                return res.redirect('/auth');
+            }
+            res.redirect('/lk');
+        });
+
+    } catch (err) {
+        console.error('Ошибка при авторизации:', err);
+        req.session.error = 'Ошибка сервера';
         return res.redirect('/auth');
     }
-    if (!(user.account === blockchain_account)){
-        req.session.error = 'Неправильный id аккаунта. Попробуйте еще раз.';
-        return res.redirect('/auth');
-    }
-    
-    req.session.user = {
-        email: user.email,
-        account: user.account
-    };
-    
-    res.redirect('/lk');
 });
 
 app.get('/lk', async (req, res) => {
@@ -177,7 +231,7 @@ app.get('/lk', async (req, res) => {
     
     try {
         // Получаем баланс
-        const balance = await web3.eth.getBalance(req.session.user.account);
+        //const balance = await web3.eth.getBalance(req.session.user.account);
         const tokenBalance = await marketplaceToken.methods
             .balanceOf(req.session.user.account)
             .call();
@@ -194,7 +248,6 @@ app.get('/lk', async (req, res) => {
 
         res.render('lk', { 
             user: req.session.user,
-            balance: web3.utils.fromWei(balance, 'ether'),
             tokenBalance: web3.utils.fromWei(tokenBalance, 'ether'),
             transactions: transactions,
             ecoScore: ecoScore,
@@ -269,12 +322,89 @@ app.get('/logout', (req, res) => {
     res.redirect('/auth');
 });
 
-// Запуск сервера
-initAccounts().then(() => {
-    app.listen(port, () => {
-        console.log(`Сервер запущен на http://localhost:${port}`);
-    });
-}).catch(err => {
-    console.error('Ошибка инициализации:', err);
-    process.exit(1);
+const partnersData = require('./partners.json');
+
+app.get('/partners', async (req, res) => {
+    if (!req.session.user) return res.redirect('/auth');
+    
+    try {
+        const tokenBalance = await marketplaceToken.methods
+            .balanceOf(req.session.user.account)
+            .call();
+            
+        // Передаем error и message из сессии
+        res.render('partners', {
+            user: req.session.user,
+            partners: partnersData,
+            tokenBalance: web3.utils.fromWei(tokenBalance, 'ether'),
+            error: req.session.error,  // Добавляем
+            message: req.session.message  // Добавляем
+        });
+        
+        // Очищаем сообщения после показа
+        delete req.session.error;
+        delete req.session.message;
+        
+    } catch (error) {
+        console.error('Ошибка:', error);
+        req.session.error = 'Ошибка при загрузке данных';
+        res.redirect('/lk');
+    }
 });
+
+app.post('/purchase-bonus', async (req, res) => {
+    if (!req.session.user) return res.redirect('/auth');
+    
+    const { partnerId } = req.body;
+    const partner = partnersData.find(p => p.id == partnerId);
+    
+    if (!partner) {
+        req.session.error = 'Бонус не найден';
+        return res.redirect('/partners');
+    }
+    
+    try {
+        const tokensToSpend = web3.utils.toWei(partner.tokens.toString(), 'ether');
+        const balance = await marketplaceToken.methods.balanceOf(req.session.user.account).call();
+        
+        if (balance < tokensToSpend) {
+            req.session.error = 'Недостаточно токенов';
+            return res.redirect('/partners');
+        }
+        
+        // Сохраняем покупку
+        const purchases = await readData(PURCHASES_FILE);
+        const newPurchase = {
+            userId: req.session.user.account,
+            partnerId: partner.id,
+            partnerName: partner.name,
+            tokensSpent: partner.tokens,
+            date: new Date().toISOString()
+        };
+        await writeData(PURCHASES_FILE, [...purchases, newPurchase]);
+        
+        // Выполняем транзакцию
+        await marketplaceToken.methods
+            .transfer(partner.acc, tokensToSpend)
+            .send({ from: req.session.user.account });
+            
+        req.session.message = `Бонус "${partner.name}" успешно приобретен!`;
+        res.redirect('/partners');
+    } catch (error) {
+        console.error('Ошибка покупки:', error);
+        req.session.error = 'Ошибка при покупке бонуса: ' + error.message;
+        res.redirect('/partners');
+    }
+});
+// Запуск сервера
+initAccounts()
+    .then(loadUsers)  // Загружаем пользователей при старте
+    .then(() => {
+        app.listen(port, () => {
+            console.log(`Сервер запущен на http://localhost:${port}`);
+        });
+    })
+    .catch(err => {
+        console.error('Ошибка инициализации:', err);
+        process.exit(1);
+    });

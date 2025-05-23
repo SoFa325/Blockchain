@@ -186,3 +186,206 @@ progress {
         gap: 1rem;
     }
 }
+
+/* Auth Page Styles */
+.auth-container {
+    max-width: 500px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.auth-title {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+}
+
+.auth-form {
+    margin-top: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #34495e;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+.auth-button {
+    width: 100%;
+    padding: 0.75rem;
+    background: #2c3e50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.auth-button:hover {
+    background: #1a252f;
+}
+
+.error-message {
+    padding: 0.75rem;
+    background: #fdecea;
+    color: #d32f2f;
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid #d32f2f;
+}
+
+.success-message {
+    padding: 0.75rem;
+    background: #e8f5e9;
+    color: #388e3c;
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid #388e3c;
+}
+
+.auth-links {
+    margin-top: 1.5rem;
+    text-align: center;
+    color: #7f8c8d;
+}
+
+.auth-links a {
+    color: #3498db;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.auth-links a:hover {
+    color: #2980b9;
+    text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .auth-container {
+        padding: 1.5rem;
+        margin: 1rem;
+    }
+    
+    .auth-title {
+        font-size: 1.5rem;
+    }
+}
+
+/* Общие стили для сообщений */
+.error-message {
+    padding: 0.75rem;
+    background: #fdecea;
+    color: #d32f2f;
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid #d32f2f;
+}
+
+.success-message {
+    padding: 0.75rem;
+    background: #e8f5e9;
+    color: #388e3c;
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid #388e3c;
+}
+
+/* Стили для форм */
+.auth-form {
+    margin-top: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #34495e;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+.form-input::placeholder {
+    color: #bdc3c7;
+}
+
+/* Адаптивность */
+@media (max-width: 600px) {
+    .register-container {
+        padding: 1.5rem;
+        margin: 1rem;
+    }
+    
+    .register-title {
+        font-size: 1.5rem;
+    }
+}
+
+/* Partners Page Specific Styles */
+.partners-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.balance-card {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.balance-label {
+    font-weight: 600;
+    color: #7f8c8d;
+}
+
+.balance-value {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #27ae60;
+}

@@ -28,4 +28,8 @@ contract MarketplaceToken is ERC20 {
     function getDiscount(address user) public view returns (uint256) {
         return discounts[user]; // Возвращаем текущую скидку пользователя
     }
+
+    function checkBalance(address user) public view returns (uint256) {
+    return balanceOf(user);
+}
 }
