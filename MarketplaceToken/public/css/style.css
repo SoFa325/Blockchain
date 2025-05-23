@@ -389,3 +389,22 @@ progress {
     font-weight: bold;
     color: #27ae60;
 }
+
+/* Стили для сообщений */
+.error-message {
+    padding: 15px;
+    background: #fdecea;
+    color: #d32f2f;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    border-left: 4px solid #d32f2f;
+}
+
+.success-message {
+    padding: 15px;
+    background: #e8f5e9;
+    color: #388e3c;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    border-left: 4px solid #388e3c;
+}

@@ -1,0 +1,26 @@
+[
+    {
+      "id": 1,
+      "name": "Эко-центр «Зеленая точка»",
+      "address": "ул. Экологическая, 15",
+      "rewardPerItem": 5,
+      "mapUrl": "https://yandex.ru/maps/?text=Зеленая точка",
+      "workingHours": "09:00-20:00"
+    },
+    {
+      "id": 2,
+      "name": "Пункт приема «Чистый город»",
+      "address": "пр. Переработки, 42",
+      "rewardPerItem": 3,
+      "mapUrl": "https://yandex.ru/maps/?text=Чистый город",
+      "workingHours": "08:00-19:00"
+    },
+    {
+      "id": 3,
+      "name": "Экостанция «Вторресурс»",
+      "address": "ул. Утилизационная, 7",
+      "rewardPerItem": 4,
+      "mapUrl": "https://yandex.ru/maps/?text=Вторресурс",
+      "workingHours": "10:00-18:00"
+    }
+  ]

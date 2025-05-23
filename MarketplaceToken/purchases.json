@@ -1,0 +1,73 @@
+[
+  {
+    "userId": "0x92758e349367371a6A89aBbDe48540a4AD6dC83c",
+    "partnerId": 2,
+    "partnerName": "Зеленый Такси",
+    "tokensSpent": 75,
+    "date": "2025-05-23T17:42:43.950Z"
+  },
+  {
+    "userId": "0x92758e349367371a6A89aBbDe48540a4AD6dC83c",
+    "partnerId": 3,
+    "partnerName": "Сервис Аренды",
+    "tokensSpent": 30,
+    "date": "2025-05-23T17:42:48.177Z"
+  },
+  {
+    "userId": "0x92758e349367371a6A89aBbDe48540a4AD6dC83c",
+    "partnerId": 1,
+    "partnerName": "Эко-Магазин",
+    "tokensSpent": 50,
+    "date": "2025-05-23T17:42:49.261Z"
+  },
+  {
+    "userId": "0x92758e349367371a6A89aBbDe48540a4AD6dC83c",
+    "type": "Сдача отходов",
+    "pointId": 2,
+    "pointName": "Пункт приема «Чистый город»",
+    "quantity": 6,
+    "reward": 18,
+    "date": "2025-05-23T17:42:56.281Z"
+  },
+  {
+    "userId": "0x92758e349367371a6A89aBbDe48540a4AD6dC83c",
+    "type": "Сдача отходов",
+    "pointId": 2,
+    "pointName": "Пункт приема «Чистый город»",
+    "quantity": 1,
+    "reward": 3,
+    "date": "2025-05-23T17:43:09.900Z"
+  },
+  {
+    "userId": "0x92758e349367371a6A89aBbDe48540a4AD6dC83c",
+    "partnerId": 1,
+    "partnerName": "Эко-Магазин",
+    "tokensSpent": 50,
+    "date": "2025-05-23T17:45:29.929Z"
+  },
+  {
+    "userId": "0x92758e349367371a6A89aBbDe48540a4AD6dC83c",
+    "partnerId": 2,
+    "partnerName": "Зеленый Такси",
+    "tokensSpent": 75,
+    "date": "2025-05-23T17:45:32.863Z"
+  },
+  {
+    "userId": "0x92758e349367371a6A89aBbDe48540a4AD6dC83c",
+    "type": "Сдача отходов",
+    "pointId": 1,
+    "pointName": "Эко-центр «Зеленая точка»",
+    "quantity": 10,
+    "reward": 50,
+    "date": "2025-05-23T17:45:47.799Z"
+  },
+  {
+    "userId": "0x92758e349367371a6A89aBbDe48540a4AD6dC83c",
+    "type": "Сдача отходов",
+    "pointId": 1,
+    "pointName": "Эко-центр «Зеленая точка»",
+    "quantity": 1,
+    "reward": 5,
+    "date": "2025-05-23T17:46:00.998Z"
+  }
+]

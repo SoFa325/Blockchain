@@ -16,12 +16,15 @@ const PURCHASES_FILE = path.join(__dirname, 'purchases.json');
 async function readData(filePath) {
     try {
         const data = await fs.readFile(filePath, 'utf8');
-        return JSON.parse(data);
+        return data ? JSON.parse(data) : [];
     } catch (err) {
         if (err.code === 'ENOENT') {
-            return []; 
+            // Если файл не существует, создаем его с пустым массивом
+            await writeData(filePath, []);
+            return [];
         }
-        throw err;
+        console.error(`Ошибка чтения файла ${filePath}:`, err);
+        return [];
     }
 }
 
@@ -396,6 +399,93 @@ app.post('/purchase-bonus', async (req, res) => {
         res.redirect('/partners');
     }
 });
+
+const recyclePointsData = require('./recycle-points.json');
+
+// Маршрут для отображения страницы
+app.get('/recycle-points', async (req, res) => {
+    if (!req.session.user) return res.redirect('/auth');
+    
+    try {
+        const tokenBalance = await marketplaceToken.methods
+            .balanceOf(req.session.user.account)
+            .call();
+            
+        res.render('recycle-points', {
+            user: req.session.user,
+            points: recyclePointsData,
+            tokenBalance: web3.utils.fromWei(tokenBalance, 'ether'),
+            error: req.session.error,
+            message: req.session.message
+        });
+        
+        delete req.session.error;
+        delete req.session.message;
+    } catch (error) {
+        console.error('Ошибка:', error);
+        req.session.error = 'Ошибка при загрузке данных';
+        res.redirect('/lk');
+    }
+});
+
+// Маршрут для обработки сдачи отходов
+app.post('/recycle-submit', async (req, res) => {
+    if (!req.session.user) return res.redirect('/auth');
+    
+    const { pointId, quantity } = req.body;
+    const point = recyclePointsData.find(p => p.id == pointId);
+    
+    if (!point) {
+        req.session.error = 'Пункт приема не найден';
+        return res.redirect('/recycle-points');
+    }
+    
+    const quantityNum = parseInt(quantity);
+    if (isNaN(quantityNum) || quantityNum <= 0) {
+        req.session.error = 'Введите корректное количество (минимум 1)';
+        return res.redirect('/recycle-points');
+    }
+    
+    try {
+        const reward = quantityNum * point.rewardPerItem;
+        const rewardWei = web3.utils.toWei(reward.toString(), 'ether');
+        
+        // Получаем текущие транзакции
+        let transactions = [];
+        try {
+            transactions = await readData(PURCHASES_FILE);
+        } catch (err) {
+            console.error('Ошибка чтения истории транзакций:', err);
+        }
+        
+        // Добавляем новую транзакцию
+        const newTransaction = {
+            userId: req.session.user.account,
+            type: "Сдача отходов",
+            pointId: point.id,
+            pointName: point.name,
+            quantity: quantityNum,
+            reward: reward,
+            date: new Date().toISOString()
+        };
+        
+        // Зачисляем токены
+        await marketplaceToken.methods
+            .transfer(req.session.user.account, rewardWei)
+            .send({ from: process.env.ADMIN_ACCOUNT });
+        
+        // Сохраняем транзакцию
+        await writeData(PURCHASES_FILE, [...transactions, newTransaction]);
+        
+        req.session.message = `Вы получили ${reward} токенов за сдачу ${quantityNum} единиц отходов!`;
+        res.redirect('/recycle-points');
+    } catch (error) {
+        console.error('Ошибка при сдаче отходов:', error);
+        req.session.error = 'Ошибка при обработке транзакции';
+        res.redirect('/recycle-points');
+    }
+});
+
 // Запуск сервера
 initAccounts()
     .then(loadUsers)  // Загружаем пользователей при старте

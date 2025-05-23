@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пункты приема отходов</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        /* Основные стили */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        /* Шапка */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: #2c3e50;
+            color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .header-title {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        
+        .header-nav {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .nav-button {
+            padding: 10px 20px;
+            background: #27ae60;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .nav-button:hover {
+            background: #219653;
+            transform: translateY(-2px);
+        }
+        
+        .logout-btn {
+            padding: 10px 20px;
+            background: #e74c3c;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .logout-btn:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+        
+        /* Контейнер */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 20px;
+        }
+        
+        /* Карточки пунктов приема */
+        .points-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .point-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+        
+        .point-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .point-header {
+            padding: 20px;
+            background: #2c3e50;
+            color: white;
+        }
+        
+        .point-name {
+            margin: 0;
+            font-size: 1.3rem;
+        }
+        
+        .point-body {
+            padding: 20px;
+        }
+        
+        .point-info {
+            margin-bottom: 15px;
+        }
+        
+        .point-info p {
+            margin: 5px 0;
+            color: #555;
+        }
+        
+        .point-reward {
+            font-weight: bold;
+            color: #27ae60;
+            font-size: 1.1rem;
+        }
+        
+        .map-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: #3498db;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .map-link:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
+        
+        /* Форма */
+        .recycle-form {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .submit-btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background 0.3s;
+            width: 100%;
+        }
+        
+        .submit-btn:hover {
+            background: #219653;
+        }
+        
+        .reward-info {
+            font-size: 0.9rem;
+            color: #777;
+            margin-top: 5px;
+        }
+        
+        /* Сообщения */
+        .error-message {
+            padding: 15px;
+            background: #fdecea;
+            color: #d32f2f;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            border-left: 4px solid #d32f2f;
+        }
+        
+        .success-message {
+            padding: 15px;
+            background: #e8f5e9;
+            color: #388e3c;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            border-left: 4px solid #388e3c;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 15px;
+                padding: 1rem;
+            }
+            
+            .header-nav {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .points-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="header-title">Пункты приема отходов</h1>
+        <div class="header-nav">
+            <a href="/lk" class="nav-button">Личный кабинет</a>
+            <a href="/logout" class="logout-btn">Выйти</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <% if (error) { %>
+            <div class="error-message"><%= error %></div>
+        <% } %>
+        
+        <% if (message) { %>
+            <div class="success-message"><%= message %></div>
+        <% } %>
+        
+        <div class="points-grid">
+            <% points.forEach(point => { %>
+                <div class="point-card">
+                    <div class="point-header">
+                        <h3 class="point-name"><%= point.name %></h3>
+                    </div>
+                    <div class="point-body">
+                        <div class="point-info">
+                            <p><strong>Адрес:</strong> <%= point.address %></p>
+                            <p><strong>Часы работы:</strong> <%= point.workingHours %></p>
+                            <p class="point-reward">Награда: <%= point.rewardPerItem %> токенов за единицу</p>
+                            <a href="<%= point.mapUrl %>" target="_blank" class="map-link">Посмотреть на карте →</a>
+                        </div>
+                        
+                        <form action="/recycle-submit" method="POST" class="recycle-form">
+                            <input type="hidden" name="pointId" value="<%= point.id %>">
+                            <div class="form-group">
+                                <label for="quantity-<%= point.id %>">Количество единиц:</label>
+                                <input type="number" id="quantity-<%= point.id %>" name="quantity" min="1" required>
+                                <p class="reward-info">Вы получите: <span id="reward-preview-<%= point.id %>">0</span> токенов</p>
+                            </div>
+                            <button type="submit" class="submit-btn">Сдать отходы</button>
+                        </form>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+
+    <script>
+        // Динамический расчет награды
+        document.querySelectorAll('input[type="number"]').forEach(input => {
+            const form = input.closest('form');
+            if (form) {
+                const pointId = form.querySelector('input[name="pointId"]').value;
+                const rewardPerItem = <%= JSON.stringify(points.reduce((acc, p) => {
+                    acc[p.id] = p.rewardPerItem;
+                    return acc;
+                }, {})) %>[pointId];
+                
+                input.addEventListener('input', function() {
+                    const quantity = parseInt(this.value) || 0;
+                    document.getElementById(`reward-preview-${pointId}`).textContent = 
+                        quantity * rewardPerItem;
+                });
+            }
+        });
+    </script>
+</body>
+</html>
