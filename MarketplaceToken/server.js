@@ -239,6 +239,7 @@ app.post('/auth', async (req, res) => {
         return res.redirect('/auth');
     }
 });
+
 function getEcoComment(score) {
     if (score >= 80) return "Отличный результат! Вы настоящий эко-герой! 🌱";
     if (score >= 60) return "Хороший результат! Продолжайте в том же духе! 👍";
