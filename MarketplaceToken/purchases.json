@@ -69,5 +69,33 @@
     "quantity": 1,
     "reward": 5,
     "date": "2025-05-23T17:46:00.998Z"
+  },
+  {
+    "userId": "0x3b755150d7b3134DbEcC571Ca35C4233CdF75741",
+    "partnerId": "0x00Fe2B448B89acACc075fb63be350EB4732dbEe4",
+    "partnerName": "Эко-Магазин",
+    "tokensSpent": 50,
+    "date": "2025-05-24T13:16:32.890Z"
+  },
+  {
+    "userId": "0x3b755150d7b3134DbEcC571Ca35C4233CdF75741",
+    "partnerId": "0x00Fe2B448B89acACc075fb63be350EB4732dbEe4",
+    "partnerName": "Сервис Аренды",
+    "tokensSpent": 30,
+    "date": "2025-05-24T13:16:34.331Z"
+  },
+  {
+    "userId": "0x3b755150d7b3134DbEcC571Ca35C4233CdF75741",
+    "partnerId": "0x00Fe2B448B89acACc075fb63be350EB4732dbEe4",
+    "partnerName": "Зеленый Такси",
+    "tokensSpent": 75,
+    "date": "2025-05-24T13:16:35.276Z"
+  },
+  {
+    "userId": "0x92758e349367371a6A89aBbDe48540a4AD6dC83c",
+    "partnerId": "0x00Fe2B448B89acACc075fb63be350EB4732dbEe4",
+    "partnerName": "Эко-Магазин",
+    "tokensSpent": 50,
+    "date": "2025-05-24T13:25:48.783Z"
   }
 ]

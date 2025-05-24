@@ -1,4 +1,3 @@
-
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
@@ -12,6 +11,7 @@ const fs = require('fs').promises;
 
 const USERS_FILE = path.join(__dirname, 'users.json');
 const PURCHASES_FILE = path.join(__dirname, 'purchases.json');
+const REFUNDING_FILE = path.join(__dirname, 'refindings.json');
 
 async function readData(filePath) {
     try {
@@ -19,7 +19,6 @@ async function readData(filePath) {
         return data ? JSON.parse(data) : [];
     } catch (err) {
         if (err.code === 'ENOENT') {
-            // Если файл не существует, создаем его с пустым массивом
             await writeData(filePath, []);
             return [];
         }
@@ -49,25 +48,33 @@ app.use(session({
     saveUninitialized: false, 
     cookie: { 
         secure: process.env.NODE_ENV === 'production',
-        maxAge: 24 * 60 * 60 * 1000 // 1 день
+        maxAge: 24 * 60 * 60 * 1000
     }
 }));
 
-
 let users = [];
-
+let availableAccounts = [];
+let usedAccounts = new Set();
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-let availableAccounts = [];
-
 async function initAccounts() {
     try {
         const accounts = await web3.eth.getAccounts();
-        availableAccounts = accounts; 
+        // Исключаем первый аккаунт (обычно это админ)
+        availableAccounts = accounts.slice(1); 
         console.log(`Доступно ${availableAccounts.length} аккаунтов для пользователей`);
+        
+        // Загружаем уже использованные аккаунты из базы
+        const existingUsers = await readData(USERS_FILE);
+        existingUsers.forEach(user => {
+            usedAccounts.add(user.account);
+            // Удаляем использованные аккаунты из доступных
+            availableAccounts = availableAccounts.filter(acc => acc !== user.account);
+        });
+        
     } catch (error) {
         console.error('Ошибка инициализации аккаунтов:', error);
         process.exit(1);
@@ -139,8 +146,6 @@ async function loadUsers() {
     }
 }
 
-
-// Вместо ручного добавления пользователей в массив:
 app.post('/register', async (req, res) => {
     const { email } = req.body;
     
@@ -160,7 +165,10 @@ app.post('/register', async (req, res) => {
         return res.redirect('/register');
     }
     
+    // Берем первый доступный аккаунт
     const account = availableAccounts.shift();
+    usedAccounts.add(account);
+    
     const newUser = {
         email,
         account,
@@ -173,8 +181,11 @@ app.post('/register', async (req, res) => {
     const emailSent = await sendAccountEmail(email, account);
     
     if (!emailSent) {
+        // Если письмо не отправилось, возвращаем аккаунт в доступные
         availableAccounts.unshift(account);
+        usedAccounts.delete(account);
         users.pop();
+        await writeData(USERS_FILE, users);
         req.session.error = 'Ошибка при отправке письма. Попробуйте позже.';
         return res.redirect('/register');
     }
@@ -228,6 +239,14 @@ app.post('/auth', async (req, res) => {
         return res.redirect('/auth');
     }
 });
+function getEcoComment(score) {
+    if (score >= 80) return "Отличный результат! Вы настоящий эко-герой! 🌱";
+    if (score >= 60) return "Хороший результат! Продолжайте в том же духе! 👍";
+    if (score >= 40) return "Неплохо, но есть куда расти 💪";
+    if (score >= 20) return "Начните с малого - сдайте батарейки или макулатуру ♻️";
+    return "Эко-активность отсутствует. Сдайте что-нибудь на переработку!";
+}
+
 
 app.get('/lk', async (req, res) => {
     if (!req.session.user) return res.redirect('/auth');
@@ -264,62 +283,105 @@ app.get('/lk', async (req, res) => {
     }
 });
 
-async function getTransactionHistory(account) {
-    // TODO
-    // пока пример
-    return [
-        {
-            timestamp: Date.now() - 86400000,
-            type: "Перевод",
-            amount: "0.5",
-            currency: "ETH",
-            status: "confirmed"
-        },
-        {
-            timestamp: Date.now() - 172800000,
-            type: "Получение токенов",
-            amount: "100",
+
+async function getTransactionHistory(userAccount) {
+    try {
+        // Читаем все виды транзакций
+        const purchases = await readData(PURCHASES_FILE);
+        const refundings = await readData(REFUNDING_FILE);
+        
+        // Фильтруем только транзакции текущего пользователя
+        const userPurchases = purchases.filter(p => p.userId === userAccount);
+        const userRefundings = refundings.filter(r => r.userId === userAccount);
+        
+        // Форматируем данные для отображения
+        const formattedPurchases = userPurchases.map(p => ({
+            timestamp: new Date(p.date).getTime(),
+            type: "Покупка бонуса",
+            partner: p.partnerName,
+            amount: p.tokensSpent,
             currency: "Tokens",
             status: "confirmed"
-        }
-    ];
+        }));
+        
+        const formattedRefundings = userRefundings.map(r => ({
+            timestamp: new Date(r.date).getTime(),
+            type: "Сдача отходов",
+            point: r.pointName,
+            amount: r.reward,
+            currency: "Tokens",
+            status: "confirmed"
+        }));
+        
+        // Объединяем и сортируем по дате (новые сверху)
+        return [...formattedPurchases, ...formattedRefundings]
+            .sort((a, b) => b.timestamp - a.timestamp);
+            
+    } catch (error) {
+        console.error('Ошибка получения истории транзакций:', error);
+        return [];
+    }
 }
 
 function calculateEcoScore(transactions) {
-    const greenTransactions = transactions.filter(tx => tx.type === "Эко-действие").length;
-    return Math.min(100, 30 + greenTransactions * 10); // Базовый 30 + 10 за каждое эко-действие
+    // Считаем эко-действиями сдачу отходов
+    const ecoActions = transactions.filter(tx => tx.type === "Сдача отходов").length;
+    const purchasesCount = transactions.filter(tx => tx.type === "Покупка бонуса").length;
+    
+    // Базовый 30 + 10 за каждое эко-действие, -5 за каждую покупку (максимум 100, минимум 0)
+    return Math.max(0, Math.min(100, 30 + (ecoActions * 10) - (purchasesCount * 5)));
 }
 
-function getEcoComment(score) {
-    if (score >= 70) return "Отличный результат! Вы настоящий эко-герой!";
-    if (score >= 40) return "Хороший результат, но есть куда расти";
-    return "Низкий показатель, рекомендуем больше эко-активностей";
+async function getUserAchievements(userAccount) {
+    try {
+        const transactions = await getTransactionHistory(userAccount);
+        
+        const ecoActions = transactions.filter(tx => tx.type === "Сдача отходов").length;
+        const purchasesCount = transactions.filter(tx => tx.type === "Покупка бонуса").length;
+        const uniquePartners = new Set(
+            transactions
+                .filter(tx => tx.partner)
+                .map(tx => tx.partner)
+        ).size;
+        
+        return [
+            {
+                title: "Первая транзакция",
+                description: "Совершите первую транзакцию",
+                completed: transactions.length > 0,
+                progress: transactions.length > 0 ? 100 : 0
+            },
+            {
+                title: "Эко-энтузиаст",
+                description: "Сдайте отходы 5 раз",
+                completed: ecoActions >= 5,
+                progress: Math.min(100, (ecoActions / 5) * 100)
+            },
+            {
+                title: "Партнерская программа",
+                description: "Воспользуйтесь 3 разными партнерами",
+                completed: uniquePartners >= 3,
+                progress: Math.min(100, (uniquePartners / 3) * 100)
+            },
+            {
+                title: "Токеновый магнат",
+                description: "Получите 100 токенов",
+                completed: transactions
+                    .filter(tx => tx.type === "Сдача отходов")
+                    .reduce((sum, tx) => sum + parseFloat(tx.amount), 0) >= 100,
+                progress: Math.min(100, 
+                    transactions
+                        .filter(tx => tx.type === "Сдача отходов")
+                        .reduce((sum, tx) => sum + parseFloat(tx.amount), 0)
+                )
+            }
+        ];
+    } catch (error) {
+        console.error('Ошибка получения достижений:', error);
+        return [];
+    }
 }
 
-async function getUserAchievements(account) {
-    // TODO
-    // пока пример
-    return [
-        {
-            title: "Первая транзакция",
-            description: "Совершите первую транзакцию",
-            completed: true,
-            progress: 100
-        },
-        {
-            title: "Эко-энтузиаст",
-            description: "Совершите 5 эко-транзакций",
-            completed: false,
-            progress: 40
-        },
-        {
-            title: "Коллекционер",
-            description: "Получите 3 разных типа токенов",
-            completed: false,
-            progress: 66
-        }
-    ];
-}
 app.get('/logout', (req, res) => {
     req.session.destroy();
     res.redirect('/auth');
@@ -379,7 +441,7 @@ app.post('/purchase-bonus', async (req, res) => {
         const purchases = await readData(PURCHASES_FILE);
         const newPurchase = {
             userId: req.session.user.account,
-            partnerId: partner.id,
+            partnerId: partner.acc,
             partnerName: partner.name,
             tokensSpent: partner.tokens,
             date: new Date().toISOString()
@@ -453,7 +515,7 @@ app.post('/recycle-submit', async (req, res) => {
         // Получаем текущие транзакции
         let transactions = [];
         try {
-            transactions = await readData(PURCHASES_FILE);
+            transactions = await readData(REFUNDING_FILE);
         } catch (err) {
             console.error('Ошибка чтения истории транзакций:', err);
         }
@@ -461,12 +523,11 @@ app.post('/recycle-submit', async (req, res) => {
         // Добавляем новую транзакцию
         const newTransaction = {
             userId: req.session.user.account,
-            type: "Сдача отходов",
-            pointId: point.id,
+            pointId: point.acc,
             pointName: point.name,
-            quantity: quantityNum,
             reward: reward,
-            date: new Date().toISOString()
+            date: new Date().toISOString(),
+            
         };
         
         // Зачисляем токены
@@ -475,7 +536,7 @@ app.post('/recycle-submit', async (req, res) => {
             .send({ from: process.env.ADMIN_ACCOUNT });
         
         // Сохраняем транзакцию
-        await writeData(PURCHASES_FILE, [...transactions, newTransaction]);
+        await writeData(REFUNDING_FILE, [...transactions, newTransaction]);
         
         req.session.message = `Вы получили ${reward} токенов за сдачу ${quantityNum} единиц отходов!`;
         res.redirect('/recycle-points');
@@ -486,9 +547,8 @@ app.post('/recycle-submit', async (req, res) => {
     }
 });
 
-// Запуск сервера
 initAccounts()
-    .then(loadUsers)  // Загружаем пользователей при старте
+    .then(loadUsers)
     .then(() => {
         app.listen(port, () => {
             console.log(`Сервер запущен на http://localhost:${port}`);

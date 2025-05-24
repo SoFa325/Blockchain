@@ -5,7 +5,8 @@
       "address": "ул. Экологическая, 15",
       "rewardPerItem": 5,
       "mapUrl": "https://yandex.ru/maps/?text=Зеленая точка",
-      "workingHours": "09:00-20:00"
+      "workingHours": "09:00-20:00",
+      "acc":""
     },
     {
       "id": 2,
@@ -13,7 +14,8 @@
       "address": "пр. Переработки, 42",
       "rewardPerItem": 3,
       "mapUrl": "https://yandex.ru/maps/?text=Чистый город",
-      "workingHours": "08:00-19:00"
+      "workingHours": "08:00-19:00",
+      "acc":""
     },
     {
       "id": 3,
@@ -21,6 +23,7 @@
       "address": "ул. Утилизационная, 7",
       "rewardPerItem": 4,
       "mapUrl": "https://yandex.ru/maps/?text=Вторресурс",
-      "workingHours": "10:00-18:00"
+      "workingHours": "10:00-18:00",
+      "acc":""
     }
   ]
