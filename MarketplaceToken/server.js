@@ -442,7 +442,7 @@ app.post('/purchase-bonus', async (req, res) => {
         const purchases = await readData(PURCHASES_FILE);
         const newPurchase = {
             userId: req.session.user.account,
-            partnerId: partner.acc,
+            partnerId: process.env.ADMIN_ACCOUNT,
             partnerName: partner.name,
             tokensSpent: partner.tokens,
             date: new Date().toISOString()
@@ -451,7 +451,7 @@ app.post('/purchase-bonus', async (req, res) => {
         
         // Выполняем транзакцию
         await marketplaceToken.methods
-            .transfer(partner.acc, tokensToSpend)
+            .transfer(process.env.ADMIN_ACCOUNT, tokensToSpend)
             .send({ from: req.session.user.account });
             
         req.session.message = `Бонус "${partner.name}" успешно приобретен!`;
@@ -524,7 +524,7 @@ app.post('/recycle-submit', async (req, res) => {
         // Добавляем новую транзакцию
         const newTransaction = {
             userId: req.session.user.account,
-            pointId: point.acc,
+            pointId: process.env.ADMIN_ACCOUNT,
             pointName: point.name,
             reward: reward,
             date: new Date().toISOString(),
@@ -548,7 +548,14 @@ app.post('/recycle-submit', async (req, res) => {
     }
 });
 
+async function delPrevious(){
+    await writeData(USERS_FILE, []);
+    await writeData(PURCHASES_FILE, []);
+    await writeData(REFUNDING_FILE, []);
+}
+
 initAccounts()
+    .then(delPrevious)//закоментить когда не надо ничего очищать
     .then(loadUsers)
     .then(() => {
         app.listen(port, () => {

@@ -3,21 +3,18 @@
       "id": 1,
       "name": "Эко-Магазин",
       "description": "Скидка 10% на экологичные товары",
-      "tokens": 50,
-      "acc": "0x00Fe2B448B89acACc075fb63be350EB4732dbEe4"
+      "tokens": 50
     },
     {
       "id": 2,
       "name": "Зеленый Такси",
       "description": "2 бесплатные поездки на электромобиле",
-      "tokens": 75,
-      "acc": "0x00Fe2B448B89acACc075fb63be350EB4732dbEe4"
+      "tokens": 75
     },
     {
       "id": 3,
       "name": "Сервис Аренды",
       "description": "1 день бесплатной аренды электросамоката",
-      "tokens": 30,
-      "acc": "0x00Fe2B448B89acACc075fb63be350EB4732dbEe4"
+      "tokens": 30
     }
   ]

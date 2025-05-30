@@ -1,101 +1,30 @@
 [
   {
-    "userId": "0x92758e349367371a6A89aBbDe48540a4AD6dC83c",
-    "partnerId": 2,
+    "userId": "0x452CFA1F21a35E9F4f812049C9b671A01Aa39C83",
+    "partnerId": "0xf50e2b6faE1C3812aE23f742581BB899728DFc1F",
     "partnerName": "Зеленый Такси",
     "tokensSpent": 75,
-    "date": "2025-05-23T17:42:43.950Z"
+    "date": "2025-05-30T16:52:25.921Z"
   },
   {
-    "userId": "0x92758e349367371a6A89aBbDe48540a4AD6dC83c",
-    "partnerId": 3,
+    "userId": "0x452CFA1F21a35E9F4f812049C9b671A01Aa39C83",
+    "partnerId": "0xf50e2b6faE1C3812aE23f742581BB899728DFc1F",
+    "partnerName": "Эко-Магазин",
+    "tokensSpent": 50,
+    "date": "2025-05-30T16:52:27.138Z"
+  },
+  {
+    "userId": "0x452CFA1F21a35E9F4f812049C9b671A01Aa39C83",
+    "partnerId": "0xf50e2b6faE1C3812aE23f742581BB899728DFc1F",
     "partnerName": "Сервис Аренды",
     "tokensSpent": 30,
-    "date": "2025-05-23T17:42:48.177Z"
+    "date": "2025-05-30T16:52:28.992Z"
   },
   {
-    "userId": "0x92758e349367371a6A89aBbDe48540a4AD6dC83c",
-    "partnerId": 1,
-    "partnerName": "Эко-Магазин",
-    "tokensSpent": 50,
-    "date": "2025-05-23T17:42:49.261Z"
-  },
-  {
-    "userId": "0x92758e349367371a6A89aBbDe48540a4AD6dC83c",
-    "type": "Сдача отходов",
-    "pointId": 2,
-    "pointName": "Пункт приема «Чистый город»",
-    "quantity": 6,
-    "reward": 18,
-    "date": "2025-05-23T17:42:56.281Z"
-  },
-  {
-    "userId": "0x92758e349367371a6A89aBbDe48540a4AD6dC83c",
-    "type": "Сдача отходов",
-    "pointId": 2,
-    "pointName": "Пункт приема «Чистый город»",
-    "quantity": 1,
-    "reward": 3,
-    "date": "2025-05-23T17:43:09.900Z"
-  },
-  {
-    "userId": "0x92758e349367371a6A89aBbDe48540a4AD6dC83c",
-    "partnerId": 1,
-    "partnerName": "Эко-Магазин",
-    "tokensSpent": 50,
-    "date": "2025-05-23T17:45:29.929Z"
-  },
-  {
-    "userId": "0x92758e349367371a6A89aBbDe48540a4AD6dC83c",
-    "partnerId": 2,
+    "userId": "0x452CFA1F21a35E9F4f812049C9b671A01Aa39C83",
+    "partnerId": "0xf50e2b6faE1C3812aE23f742581BB899728DFc1F",
     "partnerName": "Зеленый Такси",
     "tokensSpent": 75,
-    "date": "2025-05-23T17:45:32.863Z"
-  },
-  {
-    "userId": "0x92758e349367371a6A89aBbDe48540a4AD6dC83c",
-    "type": "Сдача отходов",
-    "pointId": 1,
-    "pointName": "Эко-центр «Зеленая точка»",
-    "quantity": 10,
-    "reward": 50,
-    "date": "2025-05-23T17:45:47.799Z"
-  },
-  {
-    "userId": "0x92758e349367371a6A89aBbDe48540a4AD6dC83c",
-    "type": "Сдача отходов",
-    "pointId": 1,
-    "pointName": "Эко-центр «Зеленая точка»",
-    "quantity": 1,
-    "reward": 5,
-    "date": "2025-05-23T17:46:00.998Z"
-  },
-  {
-    "userId": "0x3b755150d7b3134DbEcC571Ca35C4233CdF75741",
-    "partnerId": "0x00Fe2B448B89acACc075fb63be350EB4732dbEe4",
-    "partnerName": "Эко-Магазин",
-    "tokensSpent": 50,
-    "date": "2025-05-24T13:16:32.890Z"
-  },
-  {
-    "userId": "0x3b755150d7b3134DbEcC571Ca35C4233CdF75741",
-    "partnerId": "0x00Fe2B448B89acACc075fb63be350EB4732dbEe4",
-    "partnerName": "Сервис Аренды",
-    "tokensSpent": 30,
-    "date": "2025-05-24T13:16:34.331Z"
-  },
-  {
-    "userId": "0x3b755150d7b3134DbEcC571Ca35C4233CdF75741",
-    "partnerId": "0x00Fe2B448B89acACc075fb63be350EB4732dbEe4",
-    "partnerName": "Зеленый Такси",
-    "tokensSpent": 75,
-    "date": "2025-05-24T13:16:35.276Z"
-  },
-  {
-    "userId": "0x92758e349367371a6A89aBbDe48540a4AD6dC83c",
-    "partnerId": "0x00Fe2B448B89acACc075fb63be350EB4732dbEe4",
-    "partnerName": "Эко-Магазин",
-    "tokensSpent": 50,
-    "date": "2025-05-24T13:25:48.783Z"
+    "date": "2025-05-30T16:52:31.191Z"
   }
 ]
