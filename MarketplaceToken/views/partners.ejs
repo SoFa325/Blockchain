@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Партнеры | Блокчейн Сервис</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/watermark.css">
     <style>
         .partners-grid {
             display: grid;
@@ -46,6 +47,21 @@
             color: #f39c12;
         }
         
+        .nav-button {
+            padding: 10px 20px;
+            background: #27ae60;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .nav-button:hover {
+            background: #219653;
+            transform: translateY(-2px);
+        }
+        
         .purchase-btn {
             width: 100%;
             padding: 0.75rem;
@@ -55,6 +71,222 @@
             border-radius: 4px;
             cursor: pointer;
             transition: background 0.3s;
+        }
+         /* Основные стили */
+         body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        /* Шапка */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: #2c3e50;
+            color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .header-title {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        
+        .header-nav {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .nav-button {
+            padding: 10px 20px;
+            background: #27ae60;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .nav-button:hover {
+            background: #219653;
+            transform: translateY(-2px);
+        }
+        
+        .logout-btn {
+            padding: 10px 20px;
+            background: #e74c3c;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .logout-btn:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+        
+        /* Контейнер */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 20px;
+        }
+        
+        /* Карточки пунктов приема */
+        .points-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .point-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+        
+        .point-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .point-header {
+            padding: 20px;
+            background: #2c3e50;
+            color: white;
+        }
+        
+        .point-name {
+            margin: 0;
+            font-size: 1.3rem;
+        }
+        
+        .point-body {
+            padding: 20px;
+        }
+        
+        .point-info {
+            margin-bottom: 15px;
+        }
+        
+        .point-info p {
+            margin: 5px 0;
+            color: #555;
+        }
+        
+        .point-reward {
+            font-weight: bold;
+            color: #27ae60;
+            font-size: 1.1rem;
+        }
+        
+        .map-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: #3498db;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .map-link:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
+        
+        /* Форма */
+        .recycle-form {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .submit-btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background 0.3s;
+            width: 100%;
+        }
+        
+        .submit-btn:hover {
+            background: #219653;
+        }
+        
+        .reward-info {
+            font-size: 0.9rem;
+            color: #777;
+            margin-top: 5px;
+        }
+        
+        /* Сообщения */
+        .error-message {
+            padding: 15px;
+            background: #fdecea;
+            color: #d32f2f;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            border-left: 4px solid #d32f2f;
+        }
+        
+        .success-message {
+            padding: 15px;
+            background: #e8f5e9;
+            color: #388e3c;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            border-left: 4px solid #388e3c;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 15px;
+                padding: 1rem;
+            }
+            
+            .header-nav {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .points-grid {
+                grid-template-columns: 1fr;
+            }
         }
         
         .purchase-btn:hover {
@@ -80,10 +312,12 @@
 </head>
 <body>
     <header>
-        <h1>Партнеры и бонусы</h1>
-        <a href="/lk" class="logout">Назад в кабинет</a>
+        <h1 class="header-title">Партнеры и бонусы</h1>
+        <div class="header-nav">
+            <a href="/lk" class="nav-button">Личный кабинет</a>
+            <a href="/logout" class="logout-btn">Выйти</a>
+        </div>
     </header>
-
     <div class="container">
         <% if (typeof error !== 'undefined' && error) { %>
             <div class="error-message"><%= error %></div>

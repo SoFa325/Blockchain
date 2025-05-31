@@ -1,0 +1,20 @@
+/* public/css/watermark.css */
+body {
+    position: relative;
+}
+
+body::after {
+    content: "";
+    background-image: url('/images/token_img.jpg'); 
+    background-repeat: no-repeat; /* Убираем повторение */
+    background-size: 100px 100px;
+    background-position: right bottom; /* Правый нижний угол */
+    opacity: 0.2;
+    position: fixed;
+    bottom: 20px; /* Отступ от края */
+    right: 20px;  /* Отступ от края */
+    width: 100px;  /* Желаемая ширина */
+    height: 100px;  /* Высота подстроится автоматически */
+    z-index: 1000;
+    pointer-events: none;
+}
