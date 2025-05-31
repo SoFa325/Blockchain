@@ -1,30 +1,16 @@
 [
   {
-    "userId": "0x452CFA1F21a35E9F4f812049C9b671A01Aa39C83",
-    "partnerId": "0xf50e2b6faE1C3812aE23f742581BB899728DFc1F",
+    "userId": "0xb1Ce5d2830E035c2e782883D09aD6D4fAF265f0a",
+    "partnerId": "0x8e06ca4d2af6C9f2442400152B0560691681D315",
     "partnerName": "Зеленый Такси",
     "tokensSpent": 75,
-    "date": "2025-05-30T16:52:25.921Z"
+    "date": "2025-05-31T07:05:35.293Z"
   },
   {
-    "userId": "0x452CFA1F21a35E9F4f812049C9b671A01Aa39C83",
-    "partnerId": "0xf50e2b6faE1C3812aE23f742581BB899728DFc1F",
-    "partnerName": "Эко-Магазин",
-    "tokensSpent": 50,
-    "date": "2025-05-30T16:52:27.138Z"
-  },
-  {
-    "userId": "0x452CFA1F21a35E9F4f812049C9b671A01Aa39C83",
-    "partnerId": "0xf50e2b6faE1C3812aE23f742581BB899728DFc1F",
+    "userId": "0xb1Ce5d2830E035c2e782883D09aD6D4fAF265f0a",
+    "partnerId": "0x8e06ca4d2af6C9f2442400152B0560691681D315",
     "partnerName": "Сервис Аренды",
     "tokensSpent": 30,
-    "date": "2025-05-30T16:52:28.992Z"
-  },
-  {
-    "userId": "0x452CFA1F21a35E9F4f812049C9b671A01Aa39C83",
-    "partnerId": "0xf50e2b6faE1C3812aE23f742581BB899728DFc1F",
-    "partnerName": "Зеленый Такси",
-    "tokensSpent": 75,
-    "date": "2025-05-30T16:52:31.191Z"
+    "date": "2025-05-31T07:25:23.824Z"
   }
 ]

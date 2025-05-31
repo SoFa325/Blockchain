@@ -5,6 +5,7 @@ const { Web3 } = require('web3');
 const path = require('path');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
+const axios = require('axios'); // Добавьте эту строку
 require('dotenv').config();
 
 const fs = require('fs').promises;
@@ -263,7 +264,7 @@ app.get('/lk', async (req, res) => {
         const transactions = await getTransactionHistory(req.session.user.account);
         
         // Рассчитываем eco-score
-        const ecoScore = calculateEcoScore(transactions);//сюда Юля
+        const ecoScore =  await calculateEcoScore(transactions);//сюда Юля
         const ecoComment = getEcoComment(ecoScore);//если хош можешь убрать
 
         // Получаем достижения
@@ -275,7 +276,8 @@ app.get('/lk', async (req, res) => {
             transactions: transactions,
             ecoScore: ecoScore,
             ecoComment: ecoComment,
-            achievements: achievements
+            achievements: achievements.achievements,
+            recommendations: achievements.recommendations
         });
     } catch (error) {
         console.error('Ошибка получения данных:', error);
@@ -324,28 +326,98 @@ async function getTransactionHistory(userAccount) {
     }
 }
 
-function calculateEcoScore(transactions) {
-    // Считаем эко-действиями сдачу отходов
-    const ecoActions = transactions.filter(tx => tx.type === "Сдача отходов").length;
-    const purchasesCount = transactions.filter(tx => tx.type === "Покупка бонуса").length;
-    
-    // Базовый 30 + 10 за каждое эко-действие, -5 за каждую покупку (максимум 100, минимум 0)
-    return Math.max(0, Math.min(100, 30 + (ecoActions * 10) - (purchasesCount * 5)));
+async function calculateEcoScore(userAccount) {
+    try {
+        const transactions = await getTransactionHistory(userAccount);
+        
+        // Расчет признаков для ИИ
+        const recycleActions = transactions.filter(tx => tx.type === "Сдача отходов").length;
+        const purchases = transactions.filter(tx => tx.type === "Покупка бонуса").length;
+        const itemsRecycled = transactions
+            .filter(tx => tx.type === "Сдача отходов")
+            .reduce((sum, tx) => sum + (tx.quantity || 0), 0);
+        
+        const partnerIds = new Set(
+            transactions
+                .filter(tx => tx.partnerId)
+                .map(tx => tx.partnerId)
+        );
+        const partnerDiversity = partnerIds.size;
+
+        try {
+            // Запрос к AI-модулю
+            const response = await axios.post('http://localhost:5000/predict', {
+                recycle_actions: recycleActions,
+                purchases: purchases,
+                items_recycled: itemsRecycled,
+                partner_diversity: partnerDiversity
+            });
+            
+            // Преобразуем результат в число и ограничиваем диапазон
+            const aiScore = parseFloat(response.data.eco_score);
+            return Math.max(0, Math.min(100, aiScore));
+        } catch (error) {
+            console.error('AI module error:', error);
+            // Fallback к старой формуле
+            const ecoActions = recycleActions;
+            const purchasesCount = purchases;
+            return Math.max(0, Math.min(100, 30 + (ecoActions * 10) - (purchasesCount * 5)));
+        }
+    } catch (error) {
+        console.error('Ошибка расчета eco-score:', error);
+        // Возвращаем значение по умолчанию при критической ошибке
+        return 0;
+    }
 }
 
 async function getUserAchievements(userAccount) {
     try {
         const transactions = await getTransactionHistory(userAccount);
         
-        const ecoActions = transactions.filter(tx => tx.type === "Сдача отходов").length;
-        const purchasesCount = transactions.filter(tx => tx.type === "Покупка бонуса").length;
-        const uniquePartners = new Set(
-            transactions
-                .filter(tx => tx.partner)
-                .map(tx => tx.partner)
-        ).size;
+        // Рассчитываем характеристики для AI
+        const recycleActions = transactions.filter(tx => tx.type === "Сдача отходов").length;
+        const purchases = transactions.filter(tx => tx.type === "Покупка бонуса").length;
+        const itemsRecycled = transactions
+            .filter(tx => tx.type === "Сдача отходов")
+            .reduce((sum, tx) => sum + (tx.quantity || 0), 0);
         
-        return [
+        const partnerIds = new Set(
+            transactions
+                .filter(tx => tx.partnerId)
+                .map(tx => tx.partnerId)
+        );
+        const partnerDiversity = partnerIds.size;
+
+        let recommendations = [];
+        try {
+            // Запрос к AI-сервису
+            const aiResponse = await axios.post('http://localhost:5000/predict', {
+                recycle_actions: recycleActions,
+                purchases: purchases,
+                items_recycled: itemsRecycled,
+                partner_diversity: partnerDiversity
+            });
+            
+            recommendations = aiResponse.data.recommendations;
+        } catch (error) {
+            console.error('Ошибка получения рекомендаций от AI:', error);
+            // Fallback рекомендации
+            if (recycleActions < 5) {
+                recommendations.push("Начните с малого - сдайте батарейки или макулатуру в ближайшем пункте приема");
+            }
+            if (purchases > recycleActions) {
+                recommendations.push("Попробуйте балансировать покупки и экодействия. Каждая сдача отходов повышает ваш Eco Score");
+            }
+            if (partnerDiversity < 2) {
+                recommendations.push("Используйте бонусы у разных партнеров для увеличения разнообразия");
+            }
+            if (recommendations.length === 0) {
+                recommendations.push("Ваши экологические показатели хороши! Продолжайте в том же духе");
+            }
+        }
+
+        // Формирование достижений
+        const achievements = [
             {
                 title: "Первая транзакция",
                 description: "Совершите первую транзакцию",
@@ -355,14 +427,14 @@ async function getUserAchievements(userAccount) {
             {
                 title: "Эко-энтузиаст",
                 description: "Сдайте отходы 5 раз",
-                completed: ecoActions >= 5,
-                progress: Math.min(100, (ecoActions / 5) * 100)
+                completed: recycleActions >= 5,
+                progress: Math.min(100, (recycleActions / 5) * 100)
             },
             {
                 title: "Партнерская программа",
                 description: "Воспользуйтесь 3 разными партнерами",
-                completed: uniquePartners >= 3,
-                progress: Math.min(100, (uniquePartners / 3) * 100)
+                completed: partnerDiversity >= 3,
+                progress: Math.min(100, (partnerDiversity / 3) * 100)
             },
             {
                 title: "Токеновый магнат",
@@ -377,9 +449,17 @@ async function getUserAchievements(userAccount) {
                 )
             }
         ];
+
+        return {
+            achievements: achievements,
+            recommendations: recommendations
+        };
     } catch (error) {
         console.error('Ошибка получения достижений:', error);
-        return [];
+        return {
+            achievements: [],
+            recommendations: ["Не удалось загрузить рекомендации. Попробуйте позже"]
+        };
     }
 }
 
@@ -555,7 +635,7 @@ async function delPrevious(){
 }
 
 initAccounts()
-    .then(delPrevious)//закоментить когда не надо ничего очищать
+    // .then(delPrevious)//закоментить когда не надо ничего очищать
     .then(loadUsers)
     .then(() => {
         app.listen(port, () => {
