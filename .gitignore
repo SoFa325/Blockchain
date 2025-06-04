@@ -22175,3 +22175,9 @@ MarketplaceToken/node_modules/zod/src/v4/mini/tests/object.test.ts
 MarketplaceToken/node_modules/zod/src/v4/mini/tests/prototypes.test.ts
 MarketplaceToken/node_modules/zod/src/v4/mini/tests/recursive-types.test.ts
 MarketplaceToken/node_modules/zod/src/v4/mini/tests/string.test.ts
+.env
+.env.local
+.env*.local
+MarketplaceToken/.env
+MarketplaceToken/.env.local
+MarketplaceToken/.env*.local
