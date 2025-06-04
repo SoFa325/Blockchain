@@ -303,7 +303,7 @@ async function getTransactionHistory(userAccount) {
             timestamp: new Date(p.date).getTime(),
             type: "Покупка бонуса",
             partner: p.partnerName,
-            amount: p.tokensSpent,
+            amount: p.tokensSpent-(p.tokensSpent*5/100),
             currency: "Tokens",
             status: "confirmed"
         }));
@@ -595,7 +595,7 @@ async function delPrevious(){
     await writeData(USERS_FILE, []);
     await writeData(PURCHASES_FILE, []);
     await writeData(REFUNDING_FILE, []);
-    await marketplaceToken.methods.addPartner(process.env.ADMIN_ACCOUNT)
+    await marketplaceToken.methods.addPartner(process.env.ADMIN_ACCOUNT).send({ from: process.env.ADMIN_ACCOUNT });
 }
 
 initAccounts()
