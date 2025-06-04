@@ -1,16 +1,205 @@
 [
   {
-    "userId": "0xb1Ce5d2830E035c2e782883D09aD6D4fAF265f0a",
-    "partnerId": "0x8e06ca4d2af6C9f2442400152B0560691681D315",
+    "userId": "0x8fEaaDf092cC681398B774fcf68A1a544D388CFC",
+    "partnerId": "0x0Fb87C913742Fca9392267B9bC169C4Ef693EF15",
     "partnerName": "Зеленый Такси",
     "tokensSpent": 75,
-    "date": "2025-05-31T07:05:35.293Z"
+    "date": "2025-06-04T07:10:25.821Z"
   },
   {
-    "userId": "0xb1Ce5d2830E035c2e782883D09aD6D4fAF265f0a",
-    "partnerId": "0x8e06ca4d2af6C9f2442400152B0560691681D315",
+    "userId": "0x8fEaaDf092cC681398B774fcf68A1a544D388CFC",
+    "partnerId": "0x0Fb87C913742Fca9392267B9bC169C4Ef693EF15",
+    "partnerName": "Эко-Магазин",
+    "tokensSpent": 50,
+    "date": "2025-06-04T07:10:26.552Z"
+  },
+  {
+    "userId": "0x8fEaaDf092cC681398B774fcf68A1a544D388CFC",
+    "partnerId": "0x0Fb87C913742Fca9392267B9bC169C4Ef693EF15",
+    "partnerName": "Эко-Магазин",
+    "tokensSpent": 50,
+    "date": "2025-06-04T07:10:26.804Z"
+  },
+  {
+    "userId": "0x8fEaaDf092cC681398B774fcf68A1a544D388CFC",
+    "partnerId": "0x0Fb87C913742Fca9392267B9bC169C4Ef693EF15",
     "partnerName": "Сервис Аренды",
     "tokensSpent": 30,
-    "date": "2025-05-31T07:25:23.824Z"
+    "date": "2025-06-04T07:10:27.501Z"
+  },
+  {
+    "userId": "0x8fEaaDf092cC681398B774fcf68A1a544D388CFC",
+    "partnerId": "0x0Fb87C913742Fca9392267B9bC169C4Ef693EF15",
+    "partnerName": "Зеленый Такси",
+    "tokensSpent": 75,
+    "date": "2025-06-04T07:10:27.954Z"
+  },
+  {
+    "userId": "0x8fEaaDf092cC681398B774fcf68A1a544D388CFC",
+    "partnerId": "0x0Fb87C913742Fca9392267B9bC169C4Ef693EF15",
+    "partnerName": "Зеленый Такси",
+    "tokensSpent": 75,
+    "date": "2025-06-04T07:10:28.201Z"
+  },
+  {
+    "userId": "0x8fEaaDf092cC681398B774fcf68A1a544D388CFC",
+    "partnerId": "0x0Fb87C913742Fca9392267B9bC169C4Ef693EF15",
+    "partnerName": "Сервис Аренды",
+    "tokensSpent": 30,
+    "date": "2025-06-04T07:10:28.584Z"
+  },
+  {
+    "userId": "0x8fEaaDf092cC681398B774fcf68A1a544D388CFC",
+    "partnerId": "0x0Fb87C913742Fca9392267B9bC169C4Ef693EF15",
+    "partnerName": "Сервис Аренды",
+    "tokensSpent": 30,
+    "date": "2025-06-04T07:10:28.846Z"
+  },
+  {
+    "userId": "0x8fEaaDf092cC681398B774fcf68A1a544D388CFC",
+    "partnerId": "0x0Fb87C913742Fca9392267B9bC169C4Ef693EF15",
+    "partnerName": "Сервис Аренды",
+    "tokensSpent": 30,
+    "date": "2025-06-04T07:10:29.116Z"
+  },
+  {
+    "userId": "0x8fEaaDf092cC681398B774fcf68A1a544D388CFC",
+    "partnerId": "0x0Fb87C913742Fca9392267B9bC169C4Ef693EF15",
+    "partnerName": "Сервис Аренды",
+    "tokensSpent": 30,
+    "date": "2025-06-04T07:10:29.381Z"
+  },
+  {
+    "userId": "0x8fEaaDf092cC681398B774fcf68A1a544D388CFC",
+    "partnerId": "0x0Fb87C913742Fca9392267B9bC169C4Ef693EF15",
+    "partnerName": "Зеленый Такси",
+    "tokensSpent": 75,
+    "date": "2025-06-04T07:10:34.346Z"
+  },
+  {
+    "userId": "0x8fEaaDf092cC681398B774fcf68A1a544D388CFC",
+    "partnerId": "0x0Fb87C913742Fca9392267B9bC169C4Ef693EF15",
+    "partnerName": "Зеленый Такси",
+    "tokensSpent": 75,
+    "date": "2025-06-04T07:10:35.195Z"
+  },
+  {
+    "userId": "0x8fEaaDf092cC681398B774fcf68A1a544D388CFC",
+    "partnerId": "0x0Fb87C913742Fca9392267B9bC169C4Ef693EF15",
+    "partnerName": "Зеленый Такси",
+    "tokensSpent": 75,
+    "date": "2025-06-04T07:10:35.459Z"
+  },
+  {
+    "userId": "0x8fEaaDf092cC681398B774fcf68A1a544D388CFC",
+    "partnerId": "0x0Fb87C913742Fca9392267B9bC169C4Ef693EF15",
+    "partnerName": "Эко-Магазин",
+    "tokensSpent": 50,
+    "date": "2025-06-04T07:10:35.979Z"
+  },
+  {
+    "userId": "0x8fEaaDf092cC681398B774fcf68A1a544D388CFC",
+    "partnerId": "0x0Fb87C913742Fca9392267B9bC169C4Ef693EF15",
+    "partnerName": "Эко-Магазин",
+    "tokensSpent": 50,
+    "date": "2025-06-04T07:10:36.258Z"
+  },
+  {
+    "userId": "0x8fEaaDf092cC681398B774fcf68A1a544D388CFC",
+    "partnerId": "0x0Fb87C913742Fca9392267B9bC169C4Ef693EF15",
+    "partnerName": "Сервис Аренды",
+    "tokensSpent": 30,
+    "date": "2025-06-04T07:10:36.878Z"
+  },
+  {
+    "userId": "0x8fEaaDf092cC681398B774fcf68A1a544D388CFC",
+    "partnerId": "0x0Fb87C913742Fca9392267B9bC169C4Ef693EF15",
+    "partnerName": "Сервис Аренды",
+    "tokensSpent": 30,
+    "date": "2025-06-04T07:10:37.146Z"
+  },
+  {
+    "userId": "0x8fEaaDf092cC681398B774fcf68A1a544D388CFC",
+    "partnerId": "0x0Fb87C913742Fca9392267B9bC169C4Ef693EF15",
+    "partnerName": "Сервис Аренды",
+    "tokensSpent": 30,
+    "date": "2025-06-04T07:10:37.437Z"
+  },
+  {
+    "userId": "0x8fEaaDf092cC681398B774fcf68A1a544D388CFC",
+    "partnerId": "0x0Fb87C913742Fca9392267B9bC169C4Ef693EF15",
+    "partnerName": "Зеленый Такси",
+    "tokensSpent": 75,
+    "date": "2025-06-04T07:16:39.412Z"
+  },
+  {
+    "userId": "0x8fEaaDf092cC681398B774fcf68A1a544D388CFC",
+    "partnerId": "0x0Fb87C913742Fca9392267B9bC169C4Ef693EF15",
+    "partnerName": "Эко-Магазин",
+    "tokensSpent": 50,
+    "date": "2025-06-04T07:16:40.123Z"
+  },
+  {
+    "userId": "0x8fEaaDf092cC681398B774fcf68A1a544D388CFC",
+    "partnerId": "0x0Fb87C913742Fca9392267B9bC169C4Ef693EF15",
+    "partnerName": "Эко-Магазин",
+    "tokensSpent": 50,
+    "date": "2025-06-04T07:16:40.375Z"
+  },
+  {
+    "userId": "0x8fEaaDf092cC681398B774fcf68A1a544D388CFC",
+    "partnerId": "0x0Fb87C913742Fca9392267B9bC169C4Ef693EF15",
+    "partnerName": "Сервис Аренды",
+    "tokensSpent": 30,
+    "date": "2025-06-04T07:16:40.926Z"
+  },
+  {
+    "userId": "0x8fEaaDf092cC681398B774fcf68A1a544D388CFC",
+    "partnerId": "0x0Fb87C913742Fca9392267B9bC169C4Ef693EF15",
+    "partnerName": "Сервис Аренды",
+    "tokensSpent": 30,
+    "date": "2025-06-04T07:16:41.156Z"
+  },
+  {
+    "userId": "0x8fEaaDf092cC681398B774fcf68A1a544D388CFC",
+    "partnerId": "0x0Fb87C913742Fca9392267B9bC169C4Ef693EF15",
+    "partnerName": "Зеленый Такси",
+    "tokensSpent": 75,
+    "date": "2025-06-04T07:16:41.508Z"
+  },
+  {
+    "userId": "0x8fEaaDf092cC681398B774fcf68A1a544D388CFC",
+    "partnerId": "0x0Fb87C913742Fca9392267B9bC169C4Ef693EF15",
+    "partnerName": "Зеленый Такси",
+    "tokensSpent": 75,
+    "date": "2025-06-04T07:16:58.923Z"
+  },
+  {
+    "userId": "0x8fEaaDf092cC681398B774fcf68A1a544D388CFC",
+    "partnerId": "0x0Fb87C913742Fca9392267B9bC169C4Ef693EF15",
+    "partnerName": "Эко-Магазин",
+    "tokensSpent": 50,
+    "date": "2025-06-04T07:16:59.741Z"
+  },
+  {
+    "userId": "0x8fEaaDf092cC681398B774fcf68A1a544D388CFC",
+    "partnerId": "0x0Fb87C913742Fca9392267B9bC169C4Ef693EF15",
+    "partnerName": "Эко-Магазин",
+    "tokensSpent": 50,
+    "date": "2025-06-04T07:16:59.999Z"
+  },
+  {
+    "userId": "0x8fEaaDf092cC681398B774fcf68A1a544D388CFC",
+    "partnerId": "0x0Fb87C913742Fca9392267B9bC169C4Ef693EF15",
+    "partnerName": "Сервис Аренды",
+    "tokensSpent": 30,
+    "date": "2025-06-04T07:17:00.505Z"
+  },
+  {
+    "userId": "0x8fEaaDf092cC681398B774fcf68A1a544D388CFC",
+    "partnerId": "0x0Fb87C913742Fca9392267B9bC169C4Ef693EF15",
+    "partnerName": "Зеленый Такси",
+    "tokensSpent": 75,
+    "date": "2025-06-04T07:17:01.007Z"
   }
 ]

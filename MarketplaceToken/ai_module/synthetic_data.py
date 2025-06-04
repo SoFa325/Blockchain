@@ -7,15 +7,11 @@ def generate_synthetic_data(num_users=1000):
     for _ in range(num_users):
         recycle_actions = np.random.randint(0, 20)
         purchases = np.random.randint(0, 20)
-        items_recycled = np.random.randint(0, 70)
-        partner_diversity = np.random.randint(1, 10)
         
         # Формула для расчета базового eco-score
         base_score = (
-            1.5 * recycle_actions +
-            1.0 * np.log1p(items_recycled) * 10 +  # Увеличиваем влияние логарифма
-            2.0 * partner_diversity -
-            0.7 * purchases
+            3.5 * recycle_actions +
+            3.7 * purchases
         )
         
         # Нормализация к диапазону 1-100
@@ -35,8 +31,6 @@ def generate_synthetic_data(num_users=1000):
             'user_id': str(uuid.uuid4()),
             'recycle_actions': recycle_actions,
             'purchases': purchases,
-            'items_recycled': items_recycled,
-            'partner_diversity': partner_diversity,
             'eco_score': eco_score
         })
     

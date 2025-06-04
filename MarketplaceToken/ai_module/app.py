@@ -13,9 +13,7 @@ def predict():
     data = request.json
     features = pd.DataFrame([{
         'recycle_actions': data['recycle_actions'],
-        'purchases': data['purchases'],
-        'items_recycled': data['items_recycled'],
-        'partner_diversity': data['partner_diversity']
+        'purchases': data['purchases']
     }])
     
     # Предсказание eco-score
@@ -34,12 +32,6 @@ def generate_recommendations(features):
     
     if features['recycle_actions'] < 15:
         recs.append("Увеличьте количество посещений пунктов сдачи отходов. Старайтесь сдавать отходы хотя бы 2 раза в месяц.")
-    
-    if features['items_recycled'] < 50:
-        recs.append("Попробуйте сдавать больше единиц отходов за один раз. Начните собирать пластик и бумагу отдельно.")
-    
-    if features['partner_diversity'] < 3:
-        recs.append("Используйте бонусы у разных партнеров. Это не только экономит токены, но и помогает экологии.")
     
     if features['purchases'] > 20:
         recs.append("Сбалансируйте использование токенов между покупками и экодействиями. Помните, что экология важнее!")

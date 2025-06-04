@@ -12796,12 +12796,12 @@
         }
       },
       "links": {},
-      "address": "0x2090882B68b9896B698E5e25D181FdCaDBa166d8",
-      "transactionHash": "0xc42d40977937b4ae84fc24f66d1d67365434c3cc80bc00a0c579cda2100bfe5c"
+      "address": "0xae423704C2Dd88429D82Bf041d3125644a30F6c7",
+      "transactionHash": "0x4dbe04497ef77274ec2358381403faaeed9edf6bc8609c8dd2e712f93ce78338"
     }
   },
   "schemaVersion": "3.4.16",
-  "updatedAt": "2025-05-31T06:45:03.290Z",
+  "updatedAt": "2025-06-04T07:00:49.894Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",

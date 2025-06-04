@@ -1,51 +1,51 @@
 [
   {
-    "userId": "0xb1Ce5d2830E035c2e782883D09aD6D4fAF265f0a",
-    "pointId": "0x8e06ca4d2af6C9f2442400152B0560691681D315",
-    "pointName": "Пункт приема «Чистый город»",
-    "reward": 60,
-    "date": "2025-05-31T07:05:00.663Z"
-  },
-  {
-    "userId": "0xb1Ce5d2830E035c2e782883D09aD6D4fAF265f0a",
-    "pointId": "0x8e06ca4d2af6C9f2442400152B0560691681D315",
-    "pointName": "Эко-центр «Зеленая точка»",
-    "reward": 15,
-    "date": "2025-05-31T07:05:03.832Z"
-  },
-  {
-    "userId": "0xb1Ce5d2830E035c2e782883D09aD6D4fAF265f0a",
-    "pointId": "0x8e06ca4d2af6C9f2442400152B0560691681D315",
+    "userId": "0x8fEaaDf092cC681398B774fcf68A1a544D388CFC",
+    "pointId": "0x0Fb87C913742Fca9392267B9bC169C4Ef693EF15",
     "pointName": "Экостанция «Вторресурс»",
-    "reward": 48,
-    "date": "2025-05-31T07:05:06.244Z"
+    "reward": 180,
+    "date": "2025-06-04T07:10:15.357Z"
   },
   {
-    "userId": "0xb1Ce5d2830E035c2e782883D09aD6D4fAF265f0a",
-    "pointId": "0x8e06ca4d2af6C9f2442400152B0560691681D315",
-    "pointName": "Пункт приема «Чистый город»",
-    "reward": 3,
-    "date": "2025-05-31T07:24:34.863Z"
+    "userId": "0x8fEaaDf092cC681398B774fcf68A1a544D388CFC",
+    "pointId": "0x0Fb87C913742Fca9392267B9bC169C4Ef693EF15",
+    "pointName": "Экостанция «Вторресурс»",
+    "reward": 492492,
+    "date": "2025-06-04T07:10:22.868Z"
   },
   {
-    "userId": "0xb1Ce5d2830E035c2e782883D09aD6D4fAF265f0a",
-    "pointId": "0x8e06ca4d2af6C9f2442400152B0560691681D315",
-    "pointName": "Пункт приема «Чистый город»",
-    "reward": 135,
-    "date": "2025-05-31T07:25:33.275Z"
-  },
-  {
-    "userId": "0xb1Ce5d2830E035c2e782883D09aD6D4fAF265f0a",
-    "pointId": "0x8e06ca4d2af6C9f2442400152B0560691681D315",
-    "pointName": "Эко-центр «Зеленая точка»",
-    "reward": 60,
-    "date": "2025-05-31T07:25:35.010Z"
-  },
-  {
-    "userId": "0xb1Ce5d2830E035c2e782883D09aD6D4fAF265f0a",
-    "pointId": "0x8e06ca4d2af6C9f2442400152B0560691681D315",
+    "userId": "0x8fEaaDf092cC681398B774fcf68A1a544D388CFC",
+    "pointId": "0x0Fb87C913742Fca9392267B9bC169C4Ef693EF15",
     "pointName": "Экостанция «Вторресурс»",
     "reward": 136,
-    "date": "2025-05-31T07:25:37.254Z"
+    "date": "2025-06-04T07:10:48.559Z"
+  },
+  {
+    "userId": "0x8fEaaDf092cC681398B774fcf68A1a544D388CFC",
+    "pointId": "0x0Fb87C913742Fca9392267B9bC169C4Ef693EF15",
+    "pointName": "Экостанция «Вторресурс»",
+    "reward": 136,
+    "date": "2025-06-04T07:10:53.388Z"
+  },
+  {
+    "userId": "0x8fEaaDf092cC681398B774fcf68A1a544D388CFC",
+    "pointId": "0x0Fb87C913742Fca9392267B9bC169C4Ef693EF15",
+    "pointName": "Экостанция «Вторресурс»",
+    "reward": 936,
+    "date": "2025-06-04T07:10:58.000Z"
+  },
+  {
+    "userId": "0x8fEaaDf092cC681398B774fcf68A1a544D388CFC",
+    "pointId": "0x0Fb87C913742Fca9392267B9bC169C4Ef693EF15",
+    "pointName": "Экостанция «Вторресурс»",
+    "reward": 12,
+    "date": "2025-06-04T07:16:35.539Z"
+  },
+  {
+    "userId": "0x8fEaaDf092cC681398B774fcf68A1a544D388CFC",
+    "pointId": "0x0Fb87C913742Fca9392267B9bC169C4Ef693EF15",
+    "pointName": "Экостанция «Вторресурс»",
+    "reward": 936,
+    "date": "2025-06-04T07:16:48.011Z"
   }
 ]
