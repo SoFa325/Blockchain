@@ -595,6 +595,7 @@ async function delPrevious(){
     await writeData(USERS_FILE, []);
     await writeData(PURCHASES_FILE, []);
     await writeData(REFUNDING_FILE, []);
+    await marketplaceToken.methods.addPartner(process.env.ADMIN_ACCOUNT)
 }
 
 initAccounts()
